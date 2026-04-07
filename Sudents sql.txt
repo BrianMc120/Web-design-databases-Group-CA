@@ -1,0 +1,198 @@
+drop table IF EXISTS enrollments;
+drop table IF EXISTS modules;
+drop table IF EXISTS students;
+
+-- Table 1: students 
+
+create table students (
+    student_id      SERIAL PRIMARY KEY,
+    first_name      varchar(30) not null,
+    last_name       varchar(30) not null,
+    email           varchar(100) not null unique,
+    phone           varchar(30),
+    address_line1   varchar(100),
+    address_line2   varchar(100),
+    city            varchar(30),
+    county          varchar(30),
+    eircode         varchar(30),
+    date_of_birth   date,
+    course          varchar(100),
+    year_of_study   INT CHECK (year_of_study BETWEEN 1 AND 4),
+    enrolled_date   date,
+    is_active       BOOLEAN DEFAULT TRUE
+);
+
+
+--Table 2: modules
+
+create table modules (
+module_id     SERIAL PRIMARY KEY,
+module_code   varchar(30) not null unique,
+module_name   varchar(100) not null,
+semester      INT CHECK (semester in (1, 2)),  
+lecturer      varchar(100)
+);
+
+
+--Table 3: enrollements
+
+create table enrollments(
+
+enrollment_id     SERIAL PRIMARY KEY,
+student_id        int not null references students(student_id) on delete cascade,
+module_id         int not null references modules(module_id) on delete cascade,
+grade             decimal(5,2) check (grade between 0 and 100),
+status            varchar(30) default 'Active' check (status in ('Active', 'Withdrawn', 'Completed')),
+enrolled_date     date,
+unique (student_id, module_id)
+);
+
+
+--inserting modules into table
+
+insert into modules (module_code, module_name, semester, lecturer) 
+
+VALUES
+('WADT H1002', 'Web User Experience and Database Design', 2, 'Michael A. Murphy'),
+('COMP H1001', 'Programming', 1, 'Dr. Aoife Kelly'),
+('COMP H1003', 'Data Structures and Algorithms', 1, 'Dr. Ciarán Walsh'),
+('COMP H2001', 'Software Engineering Principles', 2, 'Dr. Siobhán Byrne'),
+('COMP H2002', 'Networks and Security', 2, 'Pádraig Ó Briain'),
+('MATH H1001', 'Discrete Mathematics', 1, 'Dr. Fiona Gallagher'),
+('COMP H3001', 'Artificial Intelligence',  1, 'Dr. Declan Nolan');
+
+
+--inserting students into table
+
+insert into students (
+  first_name, last_name, email, phone, address_line1, address_line2, city, county, eircode, date_of_birth, course, year_of_study, enrolled_date, is_active
+) values
+
+('Cillian',   'Murphy',     'cillian.murphy@student.tudublin.ie',    '085 712 3456',
+ '14 Pearse Street',      'Tallaght',        'Dublin',      'Dublin',    'D24 XF12',
+ '2003-05-12', 'BSc Computer Science',             2, '2022-09-05', TRUE),
+ 
+('Saoirse',   'Ronan',      'saoirse.ronan@student.tudublin.ie',     '087 834 5678',
+ '7 Clondalkin Road',     'Clondalkin',      'Dublin',      'Dublin',    'D22 AK34',
+ '2004-03-01', 'BSc Computing in Digital Media',   1, '2023-09-04', TRUE),
+ 
+('Colin',     'Farrell',    'colin.farrell@student.tudublin.ie',     '083 921 4567',
+ '22 Castle Avenue',      'Rathfarnham',     'Dublin',      'Dublin',    'D14 BN56',
+ '2002-05-31', 'BSc Computer Science',             3, '2021-09-06', TRUE),
+ 
+('Ruth',      'Negga',      'ruth.negga@student.tudublin.ie',        '086 345 6789',
+ '5 Hazel Grove',         'Knocklyon',       'Dublin',      'Dublin',    'D16 WP78',
+ '2003-09-15', 'BSc Software Development',         2, '2022-09-05', TRUE),
+ 
+('Domhnall',  'Gleeson',    'domhnall.gleeson@student.tudublin.ie',  '089 456 7890',
+ '33 Bancroft Road',      'Tallaght',        'Dublin',      'Dublin',    'D24 YQ90',
+ '2002-05-12', 'BSc Computer Science',             3, '2021-09-06', TRUE),
+ 
+('Barry',     'Keoghan',    'barry.keoghan@student.tudublin.ie',     '085 567 8901',
+ '9 Walkinstown Avenue',  'Walkinstown',     'Dublin',      'Dublin',    'D12 TL21',
+ '2005-10-18', 'BSc Computing in Digital Media',   1, '2024-09-02', TRUE),
+ 
+('Jessie',    'Buckley',    'jessie.buckley@student.tudublin.ie',    '087 678 9012',
+ '18 Friar Walk',         'Killarney',       'Killarney',   'Kerry',     'V93 HP45',
+ '2003-12-28', 'BSc Software Development',         2, '2022-09-05', TRUE),
+ 
+('Brendan',   'Gleeson',    'brendan.gleeson@student.tudublin.ie',   '083 789 0123',
+ '41 Nutgrove Avenue',    'Rathfarnham',     'Dublin',      'Dublin',    'D14 MR67',
+ '2002-03-29', 'BSc Computer Science',             3, '2021-09-06', TRUE),
+ 
+('Aisling',   'Bea',        'aisling.bea@student.tudublin.ie',       '086 890 1234',
+ '6 Orwell Road',         'Rathgar',         'Dublin',      'Dublin',    'D6W NX89',
+ '2004-03-16', 'BSc Computing in Digital Media',   1, '2023-09-04', TRUE),
+ 
+('Andrew',    'Scott',      'andrew.scott@student.tudublin.ie',      '089 901 2345',
+ '27 Hollyfield Road',    'Ranelagh',        'Dublin',      'Dublin',    'D6 QZ01',
+ '2003-10-21', 'BSc Software Development',         2, '2022-09-05', TRUE),
+ 
+('Eva',       'Birthistle', 'eva.birthistle@student.tudublin.ie',    '085 012 3456',
+ '3 Maplewood Drive',     'Tallaght',        'Dublin',      'Dublin',    'D24 VT23',
+ '2004-11-07', 'BSc Computer Science',             1, '2023-09-04', TRUE),
+ 
+('Michael',   'Fassbender', 'michael.fassbender@student.tudublin.ie','087 123 4567',
+ '55 Circular Road',      'Galway City',     'Galway',      'Galway',    'H91 KW45',
+ '2002-04-02', 'BSc Computer Science',             3, '2021-09-06', TRUE),
+ 
+('Fionnula',  'Flanagan',   'fionnula.flanagan@student.tudublin.ie', '083 234 5678',
+ '11 Meadow Court',       'Navan',           'Navan',       'Meath',     'C15 LP67',
+ '2004-12-10', 'BSc Software Development',         1, '2023-09-04', TRUE),
+ 
+('Pierce',    'Brosnan',    'pierce.brosnan@student.tudublin.ie',    '086 345 6780',
+ '88 Seapoint Avenue',    'Bray',            'Bray',        'Wicklow',   'A98 MQ89',
+ '2003-05-16', 'BSc Computing in Digital Media',   2, '2022-09-05', TRUE),
+ 
+('Liam',      'Neeson',     'liam.neeson@student.tudublin.ie',       '089 456 7891',
+ '14 Antrim Road',        'Ballymena',       'Ballymena',   'Antrim',    'BT43 NR10',
+ '2002-06-07', 'BSc Computer Science',             3, '2021-09-06', FALSE);
+
+
+--inserting enrollment status into table
+
+insert into enrollments (student_id, module_id, module_name, grade, status, enrolled_date)
+values
+
+-- Cillian Murphy (student 1)
+(1, 1, 78.50, 'Active',    '2023-01-10'),
+(1, 4, 82.00, 'Completed', '2022-09-10'),
+(1, 6, 71.00, 'Completed', '2022-09-10'),
+ 
+-- Saoirse Ronan (student 2)
+(2, 1, 91.00, 'Active',    '2024-01-09'),
+(2, 2, 85.50, 'Completed', '2023-09-08'),
+ 
+-- Colin Farrell (student 3)
+(3, 1, 65.00, 'Active',    '2022-01-11'),
+(3, 3, 70.00, 'Completed', '2021-09-07'),
+(3, 7, 88.00, 'Active',    '2024-01-09'),
+ 
+-- Ruth Negga (student 4)
+(4, 1, 55.00, 'Active',    '2023-01-10'),
+(4, 4, 60.50, 'Active',    '2023-01-10'),
+ 
+-- Domhnall Gleeson (student 5)
+(5, 1, 93.00, 'Active',    '2022-01-11'),
+(5, 5, 87.50, 'Active',    '2024-01-09'),
+(5, 7, 95.00, 'Active',    '2024-01-09'),
+ 
+-- Barry Keoghan (student 6)
+(6, 2, 45.00, 'Active',    '2024-09-10'),
+(6, 6, 50.00, 'Active',    '2024-09-10'),
+ 
+-- Jessie Buckley (student 7)
+(7, 1, 74.00, 'Active',    '2023-01-10'),
+(7, 4, 79.00, 'Active',    '2023-01-10'),
+ 
+-- Brendan Gleeson (student 8)
+(8, 3, 88.00, 'Completed', '2021-09-07'),
+(8, 5, 91.00, 'Active',    '2024-01-09'),
+(8, 7, 76.00, 'Active',    '2024-01-09'),
+ 
+-- Aisling Bea (student 9)
+(9, 2, 62.00, 'Active',    '2023-09-08'),
+(9, 6, 58.00, 'Active',    '2023-09-08'),
+ 
+-- Andrew Scott (student 10)
+(10, 1, 83.00, 'Active',   '2023-01-10'),
+(10, 4, 77.00, 'Active',   '2023-01-10'),
+ 
+-- Eva Birthistle (student 11)
+(11, 2, 69.00, 'Active',   '2023-09-08'),
+(11, 6, 72.00, 'Active',   '2023-09-08'),
+ 
+-- Michael Fassbender (student 12)
+(12, 3, 84.00, 'Completed','2021-09-07'),
+(12, 7, 90.00, 'Active',   '2024-01-09'),
+ 
+-- Fionnula Flanagan (student 13)
+(13, 2, 55.50, 'Active',   '2023-09-08'),
+(13, 1, 61.00, 'Active',   '2024-01-09'),
+ 
+-- Pierce Brosnan (student 14)
+(14, 1, 80.00, 'Active',   '2023-01-10'),
+(14, 5, 66.00, 'Active',   '2024-01-09'),
+ 
+-- Liam Neeson (student 15) - inactive student
+(15, 3, 40.00, 'Withdrawn','2021-09-07');
