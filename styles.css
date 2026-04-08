@@ -1,0 +1,48 @@
+/* Page */
+body {
+  font-family: Arial, sans-serif;
+  background: #f7f8fa;
+  padding: 40px;
+  color: #333;
+}
+
+/* Heading */
+h1 {
+  text-align: center;
+  color: #2c3e50;
+}
+
+/* Table */
+table {
+  width: 80%;
+  margin: 20px auto;
+  border-collapse: collapse;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+th,
+td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background: #f63ec8;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+tr:hover {
+  background: #95e6f4;
+}
+
+/* Status line */
+.status {
+  text-align: center;
+  margin-top: 12px;
+  color: #666;
+  font-style: italic;
+}
