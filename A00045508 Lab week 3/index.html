@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Supabase Data Display</title>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css" />
+
+    <!-- Supabase JS -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+      defer
+    ></script>
+
+    <!-- App script -->
+    <script defer>
+      // 1) Connect to Supabase
+      const SUPABASE_URL = "https://gzwonzdgrppqajhrcjjd.supabase.co";
+      const SUPABASE_ANON_KEY =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd6d29uemRncnBwcWFqaHJjampkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU1NzI5MTUsImV4cCI6MjA5MTE0ODkxNX0.5a7CitgvIY4zZt2u7IdtHtRT9Djqz6aRd6FMJaUoIWo";
+
+      let supabaseClient;
+      const defaultTable = "students";
+      const hiddenColumns = {
+        students: ["is_active", "enrolled_date"],
+      };
+
+      window.addEventListener("DOMContentLoaded", async () => {
+        supabaseClient = window.supabase.createClient(
+          SUPABASE_URL,
+          SUPABASE_ANON_KEY,
+        );
+        setupTableSwitcher();
+        await loadTable(defaultTable);
+      });
+
+      function setupTableSwitcher() {
+        document
+          .querySelectorAll(".table-switcher button")
+          .forEach((button) => {
+            button.addEventListener("click", async () => {
+              const tableName = button.dataset.table;
+              setActiveSwitcher(tableName);
+              await loadTable(tableName);
+            });
+          });
+      }
+
+      function setActiveSwitcher(activeName) {
+        document
+          .querySelectorAll(".table-switcher button")
+          .forEach((button) => {
+            button.classList.toggle(
+              "active",
+              button.dataset.table === activeName,
+            );
+          });
+      }
+
+      function formatColumnName(name) {
+        return name
+          .replace(/_/g, " ")
+          .replace(/\b\w/g, (char) => char.toUpperCase());
+      }
+
+      async function loadTable(tableName) {
+        const tableHead = document.getElementById("table-head");
+        const tableBody = document.getElementById("student-table");
+        const statusEl = document.getElementById("status");
+        const headerTitle = document.querySelector(".page-header h1");
+
+        headerTitle.textContent =
+          tableName.charAt(0).toUpperCase() + tableName.slice(1);
+        tableHead.innerHTML = "";
+        tableBody.innerHTML = '<tr><td colspan="8">Loading data…</td></tr>';
+        statusEl.textContent = "";
+
+        const { data, error } = await supabaseClient
+          .from(tableName)
+          .select("*");
+
+        if (error) {
+          console.error("Error fetching data:", error);
+          tableBody.innerHTML = `<tr><td colspan="8">Could not load table \"${tableName}\".</td></tr>`;
+          statusEl.textContent = error.message
+            ? `${error.message}. Check that the table exists and the name is correct.`
+            : "Query failed";
+          return;
+        }
+
+        if (!data || data.length === 0) {
+          tableBody.innerHTML =
+            '<tr><td colspan="8">No records found</td></tr>';
+          statusEl.textContent =
+            "Tip: check the selected table or add rows in the Table Editor.";
+          return;
+        }
+
+        const hidden = hiddenColumns[tableName] || [];
+        const columnNames = Object.keys(data[0]).filter(
+          (name) => !hidden.includes(name),
+        );
+        const headerRow = document.createElement("tr");
+        headerRow.innerHTML = columnNames
+          .map((name) => `<th>${formatColumnName(name)}</th>`)
+          .join("");
+        tableHead.appendChild(headerRow);
+
+        tableBody.innerHTML = "";
+        data.forEach((rowData) => {
+          const row = document.createElement("tr");
+          row.innerHTML = columnNames
+            .map((column) => `<td>${rowData[column] ?? ""}</td>`)
+            .join("");
+          tableBody.appendChild(row);
+        });
+      }
+    </script>
+  </head>
+
+  <body>
+    <div class="page-layout">
+      <nav class="sidebar">
+        <div class="brand">
+          <div class="brand-icon">S</div>
+          <div>
+            <h2>School</h2>
+            <p>Live data</p>
+          </div>
+        </div>
+
+        <ul class="sidebar-links">
+          <li><a href="index.html" class="active">Students</a></li>
+          <li><a href="courses.html">Courses</a></li>
+          <li><a href="teachers.html">Teachers</a></li>
+          <li><a href="about.html">About</a></li>
+        </ul>
+      </nav>
+
+      <main class="content">
+        <header class="page-header">
+          <div>
+            <h1>Students</h1>
+            <p class="page-subtitle">
+              Switch between Students, Enrollments, and Modules without leaving
+              this page.
+            </p>
+          </div>
+
+          <div class="table-switcher">
+            <button type="button" data-table="students" class="active">
+              Students
+            </button>
+            <button type="button" data-table="enrollments">Enrollments</button>
+            <button type="button" data-table="modules">Modules</button>
+          </div>
+        </header>
+
+        <table>
+          <thead id="table-head"></thead>
+          <tbody id="student-table">
+            <tr>
+              <td colspan="8">Loading data…</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div id="status" class="status"></div>
+      </main>
+    </div>
+  </body>
+</html>
