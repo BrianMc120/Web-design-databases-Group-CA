@@ -5,24 +5,104 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Teachers</title>
 
-    <link rel="stylesheet" href="styles.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
 
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+      }
+
+      body {
+        background: #f4f6f9;
+      }
+
+      .navbar {
+        background: #1e293b;
+        color: white;
+        padding: 15px 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .navbar h2 {
+        font-weight: 600;
+      }
+
+      .nav-links a {
+        color: #cbd5f5;
+        margin-left: 20px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: 0.2s;
+      }
+
+      .nav-links a:hover {
+        color: white;
+      }
+
+      .nav-links .active {
+        color: #38bdf8;
+      }
+
+      .container {
+        padding: 30px;
+      }
+
+      .card {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+      }
+
+      .card h1 {
+        margin-bottom: 10px;
+      }
+
+      .subtitle {
+        color: #64748b;
+        margin-bottom: 20px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      th {
+        background: #f1f5f9;
+        text-align: left;
+        padding: 12px;
+        font-weight: 600;
+      }
+
+      td {
+        padding: 12px;
+        border-bottom: 1px solid #e2e8f0;
+      }
+
+      tr:hover {
+        background: #f9fafb;
+      }
+
+      .status {
+        margin-top: 15px;
+        color: #ef4444;
+      }
+    </style>
+
     <script defer>
       const SUPABASE_URL = "https://vititdcdymsensipbkqg.supabase.co";
-      const SUPABASE_ANON_KEY =
-        "sb_publishable_HyAU1xwNCOssf2TCFvI4SQ_FNxgBUmS";
+      const SUPABASE_ANON_KEY = "sb_publishable_HyAU1xwNCOssf2TCFvI4SQ_FNxgBUmS";
 
       let supabaseClient;
-
-      
       const defaultTable = "teachers";
-
-      const hiddenColumns = {
-        students: ["is_active", "enrolled_date"],
-        teachers: []
-      };
 
       window.addEventListener("DOMContentLoaded", async () => {
         supabaseClient = window.supabase.createClient(
@@ -30,27 +110,22 @@
           SUPABASE_ANON_KEY
         );
 
-        console.log("Supabase connected (teachers page)");
-
         await loadTable(defaultTable);
       });
 
       function formatColumnName(name) {
         return name
           .replace(/_/g, " ")
-          .replace(/\b\w/g, (char) => char.toUpperCase());
+          .replace(/\b\w/g, (c) => c.toUpperCase());
       }
 
       async function loadTable(tableName) {
         const tableHead = document.getElementById("table-head");
-        const tableBody = document.getElementById("student-table");
+        const tableBody = document.getElementById("table-body");
         const statusEl = document.getElementById("status");
-        const headerTitle = document.querySelector(".page-header h1");
-
-        headerTitle.textContent = "Teachers";
 
         tableHead.innerHTML = "";
-        tableBody.innerHTML = '<tr><td colspan="8">Loading data…</td></tr>';
+        tableBody.innerHTML = "<tr><td>Loading...</td></tr>";
         statusEl.textContent = "";
 
         const { data, error } = await supabaseClient
@@ -58,85 +133,62 @@
           .select("*");
 
         if (error) {
-          console.error("Error fetching data:", error);
-          tableBody.innerHTML = `<tr><td colspan="8">Could not load teachers.</td></tr>`;
+          tableBody.innerHTML = "<tr><td>Error loading data</td></tr>";
           statusEl.textContent = error.message;
           return;
         }
 
         if (!data || data.length === 0) {
-          tableBody.innerHTML =
-            '<tr><td colspan="8">No teachers found</td></tr>';
+          tableBody.innerHTML = "<tr><td>No teachers found</td></tr>";
           return;
         }
 
-        const hidden = hiddenColumns[tableName] || [];
-
-        const columnNames = Object.keys(data[0]).filter(
-          (name) => !hidden.includes(name)
-        );
+        const columns = Object.keys(data[0]);
 
         const headerRow = document.createElement("tr");
-        headerRow.innerHTML = columnNames
-          .map((name) => `<th>${formatColumnName(name)}</th>`)
+        headerRow.innerHTML = columns
+          .map((col) => `<th>${formatColumnName(col)}</th>`)
           .join("");
         tableHead.appendChild(headerRow);
 
         tableBody.innerHTML = "";
 
-        data.forEach((rowData) => {
-          const row = document.createElement("tr");
-          row.innerHTML = columnNames
-            .map((column) => `<td>${rowData[column] ?? ""}</td>`)
+        data.forEach((row) => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = columns
+            .map((col) => `<td>${row[col] ?? ""}</td>`)
             .join("");
-          tableBody.appendChild(row);
+          tableBody.appendChild(tr);
         });
-
-        console.log("Teachers loaded");
       }
     </script>
   </head>
 
   <body>
-    <div class="page-layout">
-      <nav class="sidebar">
-        <div class="brand">
-          <div class="brand-icon">S</div>
-          <div>
-            <h2>School</h2>
-            <p>Live data</p>
-          </div>
-        </div>
+    <div class="navbar">
+      <h2>School Dashboard</h2>
+      <div class="nav-links">
+        <a href="index.html">Students</a>
+        <a href="courses.html">Courses</a>
+        <a href="teachers.html" class="active">Teachers</a>
+        <a href="about.html">About</a>
+      </div>
+    </div>
 
-        <ul class="sidebar-links">
-          <li><a href="index.html">Students</a></li>
-          <li><a href="courses.html">Courses</a></li>
-          <li><a href="teachers.html" class="active">Teachers</a></li>
-          <li><a href="about.html">About</a></li>
-        </ul>
-      </nav>
-
-      <main class="content">
-        <header class="page-header">
-          <div>
-            <h1>Teachers</h1>
-            <p class="page-subtitle">
-              View all teacher data from the database.
-            </p>
-          </div>
-        </header>
+    <div class="container">
+      <div class="card">
+        <h1>Teachers</h1>
+        <p class="subtitle">View all teachers in the system</p>
 
         <table>
           <thead id="table-head"></thead>
-          <tbody id="student-table">
-            <tr>
-              <td colspan="8">Loading data…</td>
-            </tr>
+          <tbody id="table-body">
+            <tr><td>Loading...</td></tr>
           </tbody>
         </table>
 
         <div id="status" class="status"></div>
-      </main>
+      </div>
     </div>
   </body>
 </html>
