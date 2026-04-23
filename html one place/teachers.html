@@ -3,7 +3,6 @@
 <head>
   <title>Teachers</title>
 
-  
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
@@ -18,7 +17,7 @@
     }
 
     .nav a {
-      color: rgb(255, 255, 255);
+      color: white;
       margin-right: 15px;
       text-decoration: none;
     }
@@ -47,10 +46,12 @@
 
 <body>
 
+  
   <div class="nav">
     <a href="index.html">Students</a>
     <a href="courses.html">Courses</a>
     <a href="teachers.html">Teachers</a>
+    <a href="about.html">About</a>
   </div>
 
   <div class="box">
@@ -65,30 +66,19 @@
   </div>
 
   <script>
-    
     const SUPABASE_URL = "https://vititdcdymsensipbkqg.supabase.co";
     const SUPABASE_KEY = "sb_publishable_HyAU1xwNCOssf2TCFvI4SQ_FNxgBUmS";
 
-    
     document.addEventListener("DOMContentLoaded", async function () {
 
-      console.log("Page loaded");
-
-      
       const supabase = window.supabase.createClient(
         SUPABASE_URL,
         SUPABASE_KEY
       );
 
-      console.log("Connected to Supabase");
-
-      
       const { data, error } = await supabase
         .from("teachers")
         .select("*");
-
-      console.log("DATA:", data);
-      console.log("ERROR:", error);
 
       const head = document.getElementById("head");
       const body = document.getElementById("body");
@@ -103,17 +93,18 @@
         return;
       }
 
-      
       const columns = Object.keys(data[0]);
+
       let headerRow = "<tr>";
       columns.forEach(col => {
         headerRow += "<th>" + col + "</th>";
       });
       headerRow += "</tr>";
+
       head.innerHTML = headerRow;
 
-      
       body.innerHTML = "";
+
       data.forEach(row => {
         let tr = "<tr>";
         columns.forEach(col => {
