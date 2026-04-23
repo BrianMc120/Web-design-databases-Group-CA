@@ -2,137 +2,219 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Search</title>
+<title>Dashboard</title>
 
 <style>
-
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #e6e6e6;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #eef1f5;
 }
 
-.navbar {
-   background-color: #333;
-      padding: 10px;
+/* LAYOUT */
+.container {
+    display: flex;
 }
 
-.navbar a {
-      color: rgb(255, 255, 255);
-      margin-right: 15px;
-      text-decoration: none;
+/* SIDEBAR */
+.sidebar {
+    width: 200px;
+    height: 100vh;
+    background: #1f2a38;
+    color: white;
+    padding: 20px 15px;
 }
 
-.navbar a:hover {
-    text-decoration: underline;
+/* LOGO */
+.logo-section {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
 }
 
-.main {
-    padding: 15px;
+.logo-icon {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #7b5bff, #5b6cff);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 18px;
+    margin-right: 10px;
 }
 
+.logo-text {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.logo-sub {
+    font-size: 12px;
+    color: #9ca3af;
+}
+
+/* NAV */
+.sidebar nav a {
+    display: block;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    color: #cbd5e1;
+    text-decoration: none;
+    border-radius: 10px;
+    font-size: 14px;
+}
+
+.sidebar nav a.active {
+    background: #334155;
+    color: white;
+}
+
+.sidebar nav a:hover {
+    background: #2f3e52;
+    color: white;
+}
+
+/* CONTENT */
+.content {
+    flex: 1;
+    padding: 25px;
+}
+
+h1 {
+    margin: 0;
+}
+
+.subtitle {
+    color: #666;
+    margin-bottom: 25px;
+}
+
+/* FILTER BAR */
 .filter-bar {
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 
 .filter-bar input,
 .filter-bar select {
-    padding: 5px;
+    padding: 8px;
     margin-right: 10px;
-    font-size: 13px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+/* TABLE */
+.table-container {
+    background: white;
+    border-radius: 0%;
+    overflow: hidden;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
-    background-color: #f2f2f2;
+}
+
+th,
+td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
 }
 
 th {
-    background-color: #ccc;
-    text-align: left;
-    padding: 8px;
-    font-weight: bold;
+  background: #5e68ff;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+tr:hover {
+  background: #95e6f4;
 }
 
 td {
-    padding: 8px;
-    border-top: 1px solid #bbb;
+    padding: 14px;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
 }
 
+tr:hover {
+    background: #f9fafb;
+}
 </style>
 </head>
 
 <body>
 
-<div class="navbar">
-    <a href="students.html">Students</a>
-    <a href="courses.html">Courses</a>
-    <a href="teachers.html">Teachers</a>
-    <a href="about.html">About</a>
-</div>
+<div class="container">
 
-<div class="main">
+    <!-- SIDEBAR -->
+    <div class="sidebar">
 
-    <h2>Search or Filter</h2>
+        <div class="logo-section">
+            <div class="logo-icon">S</div>
+            <div>
+                <div class="logo-text">School</div>
+                <div class="logo-sub">Live data</div>
+            </div>
+        </div>
 
-    <div class="filter-bar">
-        <input type="text" id="searchInput" placeholder="Search...">
+        <nav>
+            <a href="index.html" class="active">Students</a>
+            <a href="courses.html">Courses</a>
+            <a href="teachers.html">Teachers</a>
+            <a href="about.html">About</a>
+        </nav>
 
-        <select id="departmentFilter">
-            <option value="">All Departments</option>
-            <option value="Computing">Computing</option>
-            <option value="Design">Design</option>
-            <option value="Engineering">Engineering</option>
-        </select>
-
-        <select id="levelFilter">
-            <option value="">All Levels</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-        </select>
     </div>
 
-    <table id="courseTable">
-        <tr>
-            <th>Course ID</th>
-            <th>Course Code</th>
-            <th>Course Name</th>
-            <th>Level</th>
-            <th>Department</th>
-            <th>Description</th>
-        </tr>
+    <!-- MAIN -->
+    <div class="content">
 
-        <tr>
-            <td>1</td>
-            <td>BSC-CS</td>
-            <td>Computer Science</td>
-            <td>7</td>
-            <td>Computing</td>
-            <td>Core programming and algorithms</td>
-        </tr>
+        <h1>Search or Filter</h1>
+        <div class="subtitle">
+            Search and filter courses below.
+        </div>
 
-        <tr>
-            <td>2</td>
-            <td>BSC-UX</td>
-            <td>User Experience Design</td>
-            <td>7</td>
-            <td>Design</td>
-            <td>Interface and user design</td>
-        </tr>
+        <!-- FILTERS -->
+        <div class="filter-bar">
+            <input type="text" id="searchInput" placeholder="Search courses...">
 
-        <tr>
-            <td>3</td>
-            <td>BSC-RS</td>
-            <td>Robotics Systems</td>
-            <td>8</td>
-            <td>Engineering</td>
-            <td>Robotics and automation</td>
-        </tr>
+            <select id="departmentFilter">
+                <option value="">All Departments</option>
+                <option value="Computing">Computing</option>
+                <option value="Design">Design</option>
+                <option value="Engineering">Engineering</option>
+            </select>
 
-    </table>
+            <select id="levelFilter">
+                <option value="">All Levels</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+            </select>
+        </div>
 
+        <!-- TABLE -->
+        <div class="table-container">
+            <table id="courseTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Code</th>
+                        <th>Name</th>
+                        <th>Level</th>
+                        <th>Department</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+    </div>
 </div>
 
 <script>
@@ -154,18 +236,8 @@ async function loadCoursesFromFile() {
 }
 
 function renderTable(data) {
-    const table = document.getElementById("courseTable");
-
-    table.innerHTML = `
-        <tr>
-            <th>course_id</th>
-            <th>course_code</th>
-            <th>course_name</th>
-            <th>level</th>
-            <th>department</th>
-            <th>description</th>
-        </tr>
-    `;
+    const tbody = document.querySelector("#courseTable tbody");
+    tbody.innerHTML = "";
 
     data.forEach(course => {
         const row = document.createElement("tr");
@@ -179,7 +251,7 @@ function renderTable(data) {
             <td>${course.desc}</td>
         `;
 
-        table.appendChild(row);
+        tbody.appendChild(row);
     });
 }
 
@@ -202,13 +274,12 @@ function filterTable() {
     renderTable(filtered);
 }
 
-// Events
 document.getElementById("searchInput").addEventListener("keyup", filterTable);
 document.getElementById("departmentFilter").addEventListener("change", filterTable);
 document.getElementById("levelFilter").addEventListener("change", filterTable);
 
-// Load data first
 window.onload = loadCoursesFromFile;
 </script>
+
 </body>
 </html>
