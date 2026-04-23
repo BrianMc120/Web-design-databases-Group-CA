@@ -1,0 +1,130 @@
+<!doctype html>
+<html>
+<head>
+  <title>Teachers</title>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    body {
+      font-family: Arial;
+      background-color: #f2f2f2;
+    }
+
+    .nav {
+      background-color: #333;
+      padding: 10px;
+    }
+
+    .nav a {
+      color: white;
+      margin-right: 15px;
+      text-decoration: none;
+    }
+
+    .box {
+      background: white;
+      margin: 20px;
+      padding: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+    }
+
+    th {
+      background-color: #ddd;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="nav">
+    <a href="index.html">Students</a>
+    <a href="courses.html">Courses</a>
+    <a href="teachers.html">Teachers</a>
+  </div>
+
+  <div class="box">
+    <h2>Teachers</h2>
+
+    <table>
+      <thead id="head"></thead>
+      <tbody id="body">
+        <tr><td>Loading...</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    
+    const SUPABASE_URL = "https://vititdcdymsensipbkqg.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_HyAU1xwNCOssf2TCFvI4SQ_FNxgBUmS";
+
+    
+    document.addEventListener("DOMContentLoaded", async function () {
+
+      console.log("Page loaded");
+
+      
+      const supabase = window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
+
+      console.log("Connected to Supabase");
+
+      
+      const { data, error } = await supabase
+        .from("teachers")
+        .select("*");
+
+      console.log("DATA:", data);
+      console.log("ERROR:", error);
+
+      const head = document.getElementById("head");
+      const body = document.getElementById("body");
+
+      if (error) {
+        body.innerHTML = "<tr><td>" + error.message + "</td></tr>";
+        return;
+      }
+
+      if (!data || data.length === 0) {
+        body.innerHTML = "<tr><td>No teachers found</td></tr>";
+        return;
+      }
+
+      
+      const columns = Object.keys(data[0]);
+      let headerRow = "<tr>";
+      columns.forEach(col => {
+        headerRow += "<th>" + col + "</th>";
+      });
+      headerRow += "</tr>";
+      head.innerHTML = headerRow;
+
+      
+      body.innerHTML = "";
+      data.forEach(row => {
+        let tr = "<tr>";
+        columns.forEach(col => {
+          tr += "<td>" + (row[col] || "") + "</td>";
+        });
+        tr += "</tr>";
+        body.innerHTML += tr;
+      });
+
+    });
+  </script>
+
+</body>
+</html>
