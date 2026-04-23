@@ -11,12 +11,10 @@ body {
     background: #eef1f5;
 }
 
-/* LAYOUT */
 .container {
     display: flex;
 }
 
-/* SIDEBAR */
 .sidebar {
     width: 200px;
     height: 100vh;
@@ -25,7 +23,6 @@ body {
     padding: 20px 15px;
 }
 
-/* LOGO */
 .logo-section {
     display: flex;
     align-items: center;
@@ -55,7 +52,6 @@ body {
     color: #9ca3af;
 }
 
-/* NAV */
 .sidebar nav a {
     display: block;
     padding: 10px 12px;
@@ -76,7 +72,6 @@ body {
     color: white;
 }
 
-/* CONTENT */
 .content {
     flex: 1;
     padding: 25px;
@@ -91,7 +86,6 @@ h1 {
     margin-bottom: 25px;
 }
 
-/* FILTER BAR */
 .filter-bar {
     margin-bottom: 15px;
 }
@@ -104,7 +98,6 @@ h1 {
     border: 1px solid #ccc;
 }
 
-/* TABLE */
 .table-container {
     background: white;
     border-radius: 0%;
@@ -150,7 +143,6 @@ tr:hover {
 
 <div class="container">
 
-    <!-- SIDEBAR -->
     <div class="sidebar">
 
         <div class="logo-section">
@@ -162,7 +154,8 @@ tr:hover {
         </div>
 
         <nav>
-            <a href="index.html" class="active">Students</a>
+            <a href="Search.html" class="active">Search</a>
+            <a href="home.html">Home</a>
             <a href="courses.html">Courses</a>
             <a href="teachers.html">Teachers</a>
             <a href="about.html">About</a>
@@ -170,7 +163,6 @@ tr:hover {
 
     </div>
 
-    <!-- MAIN -->
     <div class="content">
 
         <h1>Search or Filter</h1>
@@ -178,7 +170,6 @@ tr:hover {
             Search and filter courses below.
         </div>
 
-        <!-- FILTERS -->
         <div class="filter-bar">
             <input type="text" id="searchInput" placeholder="Search courses...">
 
@@ -197,7 +188,6 @@ tr:hover {
             </select>
         </div>
 
-        <!-- TABLE -->
         <div class="table-container">
             <table id="courseTable">
                 <thead>
