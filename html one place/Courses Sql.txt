@@ -1,0 +1,33 @@
+drop table if exists courses;
+
+create table courses (
+    course_id serial primary key,
+    course_code varchar(30) not null unique,
+    course_name varchar(150) not null,
+    level int check (level between 6 and 10),
+    department varchar(100),
+    description text
+);
+
+insert into courses (course_code, course_name, level, department, description)
+values
+('BSC-CS', 'Computer Science', 7, 'Computing', 'Core programming, algorithms, software systems, and computing theory.'),
+('BSC-SE', 'Software Engineering', 7, 'Computing', 'Design, development, and maintenance of large-scale software systems.'),
+('BSC-DS', 'Data Science and Analytics', 7, 'Computing', 'Data processing, machine learning, statistics, and AI modelling.'),
+('BSC-CY', 'Cyber Security', 7, 'Computing', 'Network security, ethical hacking, and digital forensics.'),
+('BSC-DM', 'Digital Media Design', 7, 'Computing', 'Creative computing, UX/UI design, and interactive media.'),
+('BSC-IT', 'Information Technology', 7, 'Computing', 'IT systems, networking, databases, and enterprise computing.'),
+('BSC-AI', 'Artificial Intelligence', 8, 'Computing', 'Advanced machine learning, neural networks, and intelligent systems.'),
+('BSC-WS', 'Web Systems Development', 7, 'Computing', 'Full-stack web development, APIs, and cloud deployment.'),
+('BSC-GD', 'Game Design and Development', 7, 'Computing', 'Game engines, graphics programming, and interactive storytelling.'),
+('BSC-DA', 'Data Analytics', 7, 'Computing', 'Data visualization, reporting systems, and business intelligence.'),
+('BSC-CL', 'Cloud Computing', 8, 'Computing', 'Distributed systems, cloud architecture, and DevOps practices.'),
+('BSC-UX', 'User Experience Design', 7, 'Design', 'Human-computer interaction and interface design principles.'),
+('BSC-BC', 'Blockchain Technologies', 8, 'Computing', 'Distributed ledgers, smart contracts, and crypto systems.'),
+('BSC-IS', 'Information Systems', 7, 'Computing', 'Enterprise systems, databases, and organisational IT.'),
+('BSC-RS', 'Robotics and Smart Systems', 8, 'Engineering', 'Automation, robotics programming, and embedded systems.'),
+('BSC-PR', 'Programming Fundamentals', 6, 'Computing', 'Introductory programming, logic, and problem solving.'),
+('BSC-WD', 'Web Development', 6, 'Computing', 'HTML, CSS, JavaScript, and basic backend development.'),
+('BSC-DB', 'Database Systems', 6, 'Computing', 'Relational databases, SQL, and data modelling.'),
+('BSC-NW', 'Computer Networks', 7, 'Computing', 'Network architecture, protocols, and communications.'),
+('BSC-SECU', 'Security Principles', 7, 'Computing', 'Cybersecurity fundamentals and risk management.');

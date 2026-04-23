@@ -1,0 +1,55 @@
+drop table if exists teachers;
+
+create table teachers (
+    teacher_id serial primary key,
+    first_name varchar(50) not null,
+    last_name varchar(50) not null,
+    email varchar(150) unique not null,
+    phone varchar(30),
+    department varchar(100),
+    specialization varchar(150),
+    job_title varchar(100),
+    hire_date date,
+    office_location varchar(100),
+    bio text
+);
+
+insert into teachers (
+    first_name,
+    last_name,
+    email,
+    phone,
+    department,
+    specialization,
+    job_title,
+    hire_date,
+    office_location,
+    bio
+)
+values
+-- Computer Science / Programming
+('Michael', 'Murphy', 'michael.murphy@techbridge.ie', '087 111 2222', 'Computing', 'Programming & Web Development', 'Senior Lecturer', '2015-09-01', 'A201', 'Teaches programming fundamentals and web systems development.'),
+('Aoife', 'Kelly', 'aoife.kelly@techbridge.ie', '087 222 3333', 'Computing', 'Software Engineering', 'Lecturer', '2016-09-01', 'A203', 'Specialises in software design and development practices.'),
+('Ciarán', 'Walsh', 'ciaran.walsh@techbridge.ie', '087 333 4444', 'Computing', 'Algorithms & Data Structures', 'Lecturer', '2017-09-01', 'B101', 'Focuses on algorithms, complexity, and problem solving.'),
+
+-- Data Science / AI
+('Declan', 'Nolan', 'declan.nolan@techbridge.ie', '087 444 5555', 'Computing', 'Artificial Intelligence', 'Senior Lecturer', '2018-09-01', 'B102', 'Teaches machine learning and AI systems.'),
+('Fiona', 'Gallagher', 'fiona.gallagher@techbridge.ie', '087 555 6666', 'Computing', 'Data Science & Analytics', 'Lecturer', '2017-09-01', 'C201', 'Specialises in statistics and data modelling.'),
+
+-- Cyber Security / Networks
+('Pádraig', 'Ó Briain', 'padraig.obrien@techbridge.ie', '087 666 7777', 'Computing', 'Cyber Security', 'Lecturer', '2019-09-01', 'C203', 'Focus on ethical hacking and system security.'),
+('Siobhán', 'Byrne', 'siobhan.byrne@techbridge.ie', '087 777 8888', 'Computing', 'Computer Networks', 'Lecturer', '2018-09-01', 'D101', 'Teaches networking protocols and infrastructure.'),
+
+-- Software / IT Systems
+('Eoin', 'Doyle', 'eoin.doyle@techbridge.ie', '087 888 9999', 'Computing', 'Information Systems', 'Lecturer', '2020-09-01', 'D102', 'Focuses on enterprise systems and databases.'),
+('Laura', 'Higgins', 'laura.higgins@techbridge.ie', '087 999 1010', 'Computing', 'Database Systems', 'Senior Lecturer', '2016-09-01', 'E201', 'Specialises in SQL, relational models, and data design.'),
+
+-- Web / UX / Digital Media
+('Niamh', 'Kavanagh', 'niamh.kavanagh@techbridge.ie', '087 101 2020', 'Design', 'UX/UI Design', 'Lecturer', '2021-09-01', 'E203', 'Teaches user experience and interface design.'),
+('Tom', 'Reilly', 'tom.reilly@techbridge.ie', '087 202 3030', 'Computing', 'Web Development', 'Lecturer', '2020-09-01', 'F101', 'Focuses on full-stack web applications.'),
+('Rachel', 'Fitzgerald', 'rachel.fitzgerald@techbridge.ie', '087 303 4040', 'Design', 'Digital Media', 'Lecturer', '2019-09-01', 'F102', 'Works on interactive media and creative computing.'),
+
+-- Advanced / Emerging Tech
+('Liam', 'O’Connor', 'liam.oconnor@techbridge.ie', '087 404 5050', 'Engineering', 'Cloud Computing', 'Senior Lecturer', '2017-09-01', 'G201', 'Specialises in distributed systems and DevOps.'),
+('Sarah', 'Murray', 'sarah.murray@techbridge.ie', '087 505 6060', 'Computing', 'Blockchain Technologies', 'Lecturer', '2022-09-01', 'G203', 'Teaches crypto systems and blockchain design.'),
+('David', 'Flynn', 'david.flynn@techbridge.ie', '087 606 7070', 'Engineering', 'Robotics & Embedded Systems', 'Lecturer', '2018-09-01', 'H101', 'Focuses on robotics programming and automation.');
