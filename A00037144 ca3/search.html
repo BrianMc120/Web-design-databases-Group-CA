@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Search</title>
+
+<style>
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #e6e6e6;
+}
+
+.navbar {
+   background-color: #333;
+      padding: 10px;
+}
+
+.navbar a {
+      color: rgb(255, 255, 255);
+      margin-right: 15px;
+      text-decoration: none;
+}
+
+.navbar a:hover {
+    text-decoration: underline;
+}
+
+.main {
+    padding: 15px;
+}
+
+.filter-bar {
+    margin-bottom: 10px;
+}
+
+.filter-bar input,
+.filter-bar select {
+    padding: 5px;
+    margin-right: 10px;
+    font-size: 13px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #f2f2f2;
+}
+
+th {
+    background-color: #ccc;
+    text-align: left;
+    padding: 8px;
+    font-weight: bold;
+}
+
+td {
+    padding: 8px;
+    border-top: 1px solid #bbb;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="navbar">
+    <a href="students.html">Students</a>
+    <a href="courses.html">Courses</a>
+    <a href="teachers.html">Teachers</a>
+    <a href="about.html">About</a>
+</div>
+
+<div class="main">
+
+    <h2>Search or Filter</h2>
+
+    <div class="filter-bar">
+        <input type="text" id="searchInput" placeholder="Search...">
+
+        <select id="departmentFilter">
+            <option value="">All Departments</option>
+            <option value="Computing">Computing</option>
+            <option value="Design">Design</option>
+            <option value="Engineering">Engineering</option>
+        </select>
+
+        <select id="levelFilter">
+            <option value="">All Levels</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+        </select>
+    </div>
+
+    <table id="courseTable">
+        <tr>
+            <th>Course ID</th>
+            <th>Course Code</th>
+            <th>Course Name</th>
+            <th>Level</th>
+            <th>Department</th>
+            <th>Description</th>
+        </tr>
+
+        <tr>
+            <td>1</td>
+            <td>BSC-CS</td>
+            <td>Computer Science</td>
+            <td>7</td>
+            <td>Computing</td>
+            <td>Core programming and algorithms</td>
+        </tr>
+
+        <tr>
+            <td>2</td>
+            <td>BSC-UX</td>
+            <td>User Experience Design</td>
+            <td>7</td>
+            <td>Design</td>
+            <td>Interface and user design</td>
+        </tr>
+
+        <tr>
+            <td>3</td>
+            <td>BSC-RS</td>
+            <td>Robotics Systems</td>
+            <td>8</td>
+            <td>Engineering</td>
+            <td>Robotics and automation</td>
+        </tr>
+
+    </table>
+
+</div>
+
+<script>
+let allCourses = [];
+
+async function loadCoursesFromFile() {
+    const response = await fetch("courses.txt");
+    const text = await response.text();
+
+    allCourses = text
+        .split("\n")
+        .filter(line => line.trim())
+        .map(line => {
+            const [id, code, name, level, dept, desc] = line.split(",");
+            return { id, code, name, level, dept, desc };
+        });
+
+    renderTable(allCourses);
+}
+
+function renderTable(data) {
+    const table = document.getElementById("courseTable");
+
+    table.innerHTML = `
+        <tr>
+            <th>course_id</th>
+            <th>course_code</th>
+            <th>course_name</th>
+            <th>level</th>
+            <th>department</th>
+            <th>description</th>
+        </tr>
+    `;
+
+    data.forEach(course => {
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+            <td>${course.id}</td>
+            <td>${course.code}</td>
+            <td>${course.name}</td>
+            <td>${course.level}</td>
+            <td>${course.dept}</td>
+            <td>${course.desc}</td>
+        `;
+
+        table.appendChild(row);
+    });
+}
+
+function filterTable() {
+    const search = document.getElementById("searchInput").value.toLowerCase();
+    const dept = document.getElementById("departmentFilter").value;
+    const level = document.getElementById("levelFilter").value;
+
+    const filtered = allCourses.filter(c => {
+        const matchSearch =
+            c.code.toLowerCase().includes(search) ||
+            c.name.toLowerCase().includes(search);
+
+        const matchDept = !dept || c.dept === dept;
+        const matchLevel = !level || c.level === level;
+
+        return matchSearch && matchDept && matchLevel;
+    });
+
+    renderTable(filtered);
+}
+
+// Events
+document.getElementById("searchInput").addEventListener("keyup", filterTable);
+document.getElementById("departmentFilter").addEventListener("change", filterTable);
+document.getElementById("levelFilter").addEventListener("change", filterTable);
+
+// Load data first
+window.onload = loadCoursesFromFile;
+</script>
+</body>
+</html>

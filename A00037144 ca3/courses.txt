@@ -1,0 +1,20 @@
+1,BSC-CS,Computer Science,7,Computing,Core programming algorithms software systems and computing theory
+2,BSC-SE,Software Engineering,7,Computing,Design development and maintenance of large scale software systems
+3,BSC-DS,Data Science and Analytics,7,Computing,Data processing machine learning statistics and AI modelling
+4,BSC-CY,Cyber Security,7,Computing,Network security ethical hacking and digital forensics
+5,BSC-DM,Digital Media Design,7,Computing,Creative computing UX UI design and interactive media
+6,BSC-IT,Information Technology,7,Computing,IT systems networking databases and enterprise computing
+7,BSC-AI,Artificial Intelligence,8,Computing,Advanced machine learning neural networks and intelligent systems
+8,BSC-WS,Web Systems Development,7,Computing,Full stack web development APIs and cloud deployment
+9,BSC-GD,Game Design and Development,7,Computing,Game engines graphics programming and interactive storytelling
+10,BSC-DA,Data Analytics,7,Computing,Data visualization reporting systems and business intelligence
+11,BSC-CL,Cloud Computing,8,Computing,Distributed systems cloud architecture and DevOps practices
+12,BSC-UX,User Experience Design,7,Design,Human computer interaction and interface design principles
+13,BSC-BC,Blockchain Technologies,8,Computing,Distributed ledgers smart contracts and crypto systems
+14,BSC-IS,Information Systems,7,Computing,Enterprise systems databases and organisational IT
+15,BSC-RS,Robotics and Smart Systems,8,Engineering,Automation robotics programming and embedded systems
+16,BSC-PR,Programming Fundamentals,6,Computing,Introductory programming logic and problem solving
+17,BSC-WD,Web Development,6,Computing,HTML CSS JavaScript and basic backend development
+18,BSC-DB,Database Systems,6,Computing,Relational databases SQL and data modelling
+19,BSC-NW,Computer Networks,7,Computing,Network architecture protocols and communications
+20,BSC-SECU,Security Principles,7,Computing,Cybersecurity fundamentals and risk management
